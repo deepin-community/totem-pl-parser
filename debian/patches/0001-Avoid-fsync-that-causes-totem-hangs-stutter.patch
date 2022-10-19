@@ -1,0 +1,43 @@
+From: Daniel van Vugt <daniel.van.vugt@canonical.com>
+Date: Fri, 20 Oct 2017 18:48:43 +0800
+Subject: [PATCH] Avoid fsync() that causes totem hangs/stutter
+
+It's just too slow, and not important enough compared to smooth media
+playback.
+
+Bug-GNOME: https://gitlab.gnome.org/GNOME/totem/-/issues/116
+Bug-Ubuntu: https://launchpad.net/bugs/1698270
+Applied-Upstream: no
+---
+ plparse/totem-pl-parser-xspf.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/plparse/totem-pl-parser-xspf.c b/plparse/totem-pl-parser-xspf.c
+index e34420b..6200fab 100644
+--- a/plparse/totem-pl-parser-xspf.c
++++ b/plparse/totem-pl-parser-xspf.c
+@@ -109,6 +109,24 @@ totem_pl_parser_save_xspf (TotemPlParser    *parser,
+ 	GString *str;
+ 	gboolean valid, success;
+ 
++	/* Ensure we delete the file before g_file_replace. While this sounds
++	* like a waste of time, it actually saves a lot of time. The reason
++	* is that g_file_replace will later incur an fsync() on close (the
++	* g_object_unref call) if the file existed at the time it was opened
++	* (the g_file_replace call).
++	*   The problem with fsync is that it blocks us for up to 200ms or
++	* so even with an SSD. And we need smooth media playback more than the
++	* guarantee of having an old playlist on disk after the disk fills up
++	* or fails.
++	*   P.S. G_FILE_CREATE_REPLACE_DESTINATION is not adequate for this.
++	*/
++	g_autoptr (GError) local_error = NULL;
++	if (!g_file_delete (output, cancellable, &local_error) &&
++	    !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
++		g_propagate_error (error, g_steal_pointer (&local_error));
++		return FALSE;
++	}
++
+ 	stream = g_file_replace (output, NULL, FALSE, G_FILE_CREATE_NONE, cancellable, error);
+ 	if (stream == NULL)
+ 		return FALSE;

@@ -1,0 +1,79 @@
+From: =?utf-8?b?Ik1hcmNvIFRyZXZpc2FuIChUcmV2acOxbyki?= <mail@3v1n0.net>
+Date: Tue, 15 Sep 2020 13:04:52 +0200
+Subject: tests: Disable tests requiring internet connection
+
+Various tests require HTTP Gvfs backend to get proper GFile support on
+URIs parsing, however some other do actual tests on remote resources.
+
+This is not something reliable and depends on things we don't control,
+so let's just disable them.
+---
+ plparse/tests/parser.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/plparse/tests/parser.c b/plparse/tests/parser.c
+index e4c7c03..03d8f79 100644
+--- a/plparse/tests/parser.c
++++ b/plparse/tests/parser.c
+@@ -30,6 +30,7 @@ static gboolean option_disable_unsafe = FALSE;
+ static char *option_base_uri = NULL;
+ static char **uris = NULL;
+ static gboolean http_supported = FALSE;
++static gboolean network_supported = FALSE;
+ 
+ static char *
+ get_relative_uri (const char *rel)
+@@ -546,7 +547,7 @@ test_youtube_starttime (void)
+ static void
+ test_itms_parsing (void)
+ {
+-	if (http_supported == FALSE) {
++	if (http_supported == FALSE || network_supported == FALSE) {
+ 		g_test_message ("HTTP support required to test ITMS");
+ 		return;
+ 	}
+@@ -1111,7 +1112,7 @@ test_parsing_broken_asx (void)
+ 	if (!g_test_slow ())
+ 		return;
+ 
+-	if (http_supported == FALSE) {
++	if (http_supported == FALSE || network_supported == FALSE) {
+ 		g_test_message ("HTTP support required to test broken ASX");
+ 		return;
+ 	}
+@@ -1126,7 +1127,7 @@ test_xml_is_text_plain (void)
+ {
+ 	TotemPlParserResult result;
+ 
+-	if (http_supported == FALSE) {
++	if (http_supported == FALSE || network_supported == FALSE) {
+ 		g_test_message ("HTTP support required to test text/plain XML");
+ 		return;
+ 	}
+@@ -1141,7 +1142,7 @@ test_compressed_content_encoding (void)
+ {
+ 	TotemPlParserResult result;
+ 
+-	if (http_supported == FALSE) {
++	if (http_supported == FALSE || network_supported == FALSE) {
+ 		g_test_message ("HTTP support required to test compressed content-encoding");
+ 		return;
+ 	}
+@@ -1810,11 +1811,17 @@ check_http (void)
+ 		}
+ 	}
+ 
++	network_supported = http_supported;
++
+ 	if (http_supported == FALSE) {
+ 		if (error_out_on_http)
+ 			g_error ("gvfs with http support is required (no http)");
+ 		else
+ 			g_message ("gvfs with http support is required (no http)");
++	} else {
++		network_supported = FALSE;
++		g_message ("gvfs has http support, but disabling tests requiring internet "
++		           "connection anyways, as they may be unreliable at build time");
+ 	}
+ }
+ 

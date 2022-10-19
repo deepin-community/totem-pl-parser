@@ -1,0 +1,724 @@
+totem-pl-parser (3.26.6-1) unstable; urgency=medium
+
+  * New upstream release
+  * Don't depend on libquvi: the video helper feature has been removed
+  * debian/docs: README -> README.md
+  * Build-Depend on dh-sequence-gir & dh-sequence-gnome
+  * debian/rules: Stop managing shlib versions by hand
+  * debian/rules: Clean up a bit
+  * Refresh patches
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sun, 19 Sep 2021 09:53:18 -0400
+
+totem-pl-parser (3.26.5-5) unstable; urgency=medium
+
+  * d/p/0001-Avoid-fsync-that-causes-totem-hangs-stutter.patch: Fix a typo.
+    It was causing the local error not being set and thus a crash on
+    propagation.
+
+ -- Marco Trevisan (Treviño) <marco@ubuntu.com>  Wed, 16 Sep 2020 14:30:53 +0200
+
+totem-pl-parser (3.26.5-4) unstable; urgency=medium
+
+  * debian/rules: Use dbus-run-session as meson wrapper script.
+    It needs XDG_RUNTIME_DIR and HOME and these are set by auto-test only
+    at the point of launching meson, so let's use it as a wrapper
+  * tests: Disable tests requiring internet connection.
+    Various tests require HTTP Gvfs backend to get proper GFile support on
+    URIs parsing, however some other do actual tests on remote resources.
+    This is not something reliable and depends on things we don't control,
+    so let's just disable them.
+  * d/p/tests-Disable-tests-requiring-internet-connection.patch: Add tags
+  * debian/patches: Move debian-only patches under the debian topic
+
+ -- Marco Trevisan (Treviño) <marco@ubuntu.com>  Tue, 15 Sep 2020 13:42:12 +0200
+
+totem-pl-parser (3.26.5-3) unstable; urgency=medium
+
+  * debian/patches:
+    - Ignore file-not-found errors on deletion.
+      If we try to replace a file that has not been created yet, ignore the
+      file-not-found error on the previous delete, while propagate others.
+    - Disable tests requiring system DBus
+  * debian/control: Add gvfs backends and dbus to run tests.
+    Tests require GVfs daemon, that are dbus-activated so we need to run
+    tests via dbus-run-session and install the gvfs-backends so that http is
+    available. Mime infos are also needed to check the type of an URI.
+
+ -- Marco Trevisan (Treviño) <marco@ubuntu.com>  Tue, 15 Sep 2020 01:39:49 +0200
+
+totem-pl-parser (3.26.5-2) unstable; urgency=medium
+
+  * d/p/0001-Avoid-fsync-that-causes-totem-hangs-stutter.patch:
+    - Refresh to include the cancellable parameter and return error on issues.
+    - Add patch tags.
+  * debian/control: Depend on debhelper-compat 13 and remove uneeded elements
+  * debian/rules: Don't ignore test errors.
+
+ -- Marco Trevisan (Treviño) <marco@ubuntu.com>  Mon, 14 Sep 2020 15:41:17 +0200
+
+totem-pl-parser (3.26.5-1) unstable; urgency=medium
+
+  * New upstream release, updated symbols
+  * debian/control.in:
+    - updated libglib requirement
+  * debian/gbp.conf:
+    - update the configuration to currently used team options
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 11 Mar 2020 17:10:30 +0100
+
+totem-pl-parser (3.26.2-1) unstable; urgency=medium
+
+  * New upstream version
+  * debian/control.in:
+    - don't use gmime follow the upstream changes
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 17 Jan 2019 13:49:19 +0100
+
+totem-pl-parser (3.26.1-2) unstable; urgency=medium
+
+  * Add -Wl,-O1 to our LDFLAGS
+  * Bump Standards-Version to 4.3.0
+
+ -- Jeremy Bicha <jbicha@debian.org>  Thu, 27 Dec 2018 17:43:05 -0500
+
+totem-pl-parser (3.26.1-1) unstable; urgency=medium
+
+  * New upstream version
+  * debian/control.in:
+    - remove the libsoup build-depends, it's not used
+
+  [ Jeremy Bicha ]
+  * Update Vcs fields for migration to https://salsa.debian.org/
+  * Build-Depend on debhelper >= 11.1.3 to automatically build with the
+    C.UTF-8 locale
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 28 Aug 2018 13:34:11 +0200
+
+totem-pl-parser (3.26.0-2) unstable; urgency=medium
+
+  [ Jeremy Bicha ]
+  * Update Vcs fields for conversion to git
+  * Add debian/gbp.conf
+  * Bump Standards-Version to 4.1.2
+  * Bump debhelper compat to 11
+
+  [ Daniel van Vugt]
+  * Add 0001-Avoid-fsync-that-causes-totem-hangs-stutter.patch:
+    - Avoid large stutters in video playback due to heavy (and unnecessary)
+      disk syncing (LP: #1698270)
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sat, 16 Dec 2017 16:37:41 -0500
+
+totem-pl-parser (3.26.0-1) unstable; urgency=medium
+
+  [ Jeremy Bicha ]
+  * New upstream release
+  * Build with meson
+  * Use C.UTF-8 locale to fix build failure
+  * debian/libtotem-plparser18.symbols: Update
+  * Bump Standards-Version to 4.1.1
+
+  [ Laurent Bigonville ]
+  * Rename the gir1.2-totem-plparser-1.0 package to gir1.2-totemplparser-1.0
+    per gobject-introspection minipolicy
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sun, 08 Oct 2017 09:57:53 -0400
+
+totem-pl-parser (3.10.8-3) unstable; urgency=medium
+
+  * Also switch our -dev dependenty to gmime 3.0.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Sun, 23 Jul 2017 16:48:31 +0200
+
+totem-pl-parser (3.10.8-2) unstable; urgency=medium
+
+  * Switch from gmime 2.6 to 3.0 (Closes: #867356)
+
+ -- Andreas Henriksson <andreas@fatal.se>  Sun, 23 Jul 2017 16:34:56 +0200
+
+totem-pl-parser (3.10.8-1) unstable; urgency=medium
+
+  * New upstream release.
+    - No longer uses deprecated gnome-common. (Closes: #829980)
+  * Don't run ./configure during autoreconf.
+  * Bump Build-Depends on libglib2.0-dev to (>= 2.36.0) as per configure.ac.
+
+ -- Michael Biebl <biebl@debian.org>  Sun, 02 Jul 2017 01:10:51 +0200
+
+totem-pl-parser (3.10.7-1) unstable; urgency=medium
+
+  [ Andreas Henriksson ]
+  * Convert from cdbs to dh.
+  * Drop libtotem-plparser-dbg in favour of automatic dbgsym
+  * Bump dh compat to 10 (automatic dh-autoreconf)
+  * Bump Standards-Version to 3.9.8
+  * Run testsuite, non-fatal for now until it's fixed.
+  * Add explicit gnome-common build-dependency (Closes: #837831)
+
+  [ Michael Biebl ]
+  * New upstream release.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 21 Sep 2016 20:16:21 +0200
+
+totem-pl-parser (3.10.6-4) unstable; urgency=medium
+
+  * debian/rules: set libexecdir to a (multiarched) so-versioned path
+    where we install the videosite helper. (Nothing else uses libexecdir.)
+  * debian/libtotem-pl-parser18.install:
+    install usr/lib/*/libtotem-plparser*/totem-pl-parser directory
+    which contains 99-totem-pl-parser-videosite helper.
+    (Closes: #816575)
+  * Bump Standards-Version to 3.9.7
+
+ -- Andreas Henriksson <andreas@fatal.se>  Thu, 03 Mar 2016 15:59:53 +0100
+
+totem-pl-parser (3.10.6-2) unstable; urgency=medium
+
+  * Upload to unstable. (Closes: #810952)
+
+ -- Andreas Henriksson <andreas@fatal.se>  Thu, 18 Feb 2016 17:13:18 +0100
+
+totem-pl-parser (3.10.6-1exp1) experimental; urgency=medium
+
+  [ Tim Lunn ]
+  * Prepare for libquvi-0.9 transition
+    - d/p/totem-pl-parser-use-old-quvi.patch: Dropped
+    - d/control.in: Build depend on libquvi-0.9-dev
+
+ -- Andreas Henriksson <andreas@fatal.se>  Thu, 14 Jan 2016 13:42:01 +0100
+
+totem-pl-parser (3.10.6-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Refresh debian/patches/totem-pl-parser-use-old-quvi.patch.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 16 Dec 2015 00:09:33 +0100
+
+totem-pl-parser (3.10.5-1) unstable; urgency=medium
+
+  [ Jackson Doak ]
+  * New upstream release
+
+  [ Michael Biebl ]
+  * Wrap dependencies and drop obsolete Conflicts and Replaces from
+    pre-wheezy.
+  * Split the translations from libtotem-plparser18 into a separate
+    libtotem-plparser-common package which is Architecture: all. Make
+    libtotem-plparser18 depend on that package.
+  * Convert the package to multiarch.
+  * Bump debhelper compatility level to 9.
+  * Bump Standards-Version to 3.9.6.
+
+ -- Michael Biebl <biebl@debian.org>  Sun, 26 Jul 2015 14:28:53 +0200
+
+totem-pl-parser (3.10.3-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Mon, 22 Sep 2014 22:08:06 +0200
+
+totem-pl-parser (3.10.2-3) unstable; urgency=medium
+
+  * debian/control.in:
+    + Let libtotem-plparser-dev depend on libquvi-dev, needed by the
+      pkg-config file.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Sat, 31 May 2014 11:46:29 +0200
+
+totem-pl-parser (3.10.2-2) unstable; urgency=medium
+
+  * Add debian/patches/totem-pl-parser-use-old-quvi.patch
+    - reverts upstream commit 24970018abfcedcaa496
+      "plparse: Port to libquvi 0.9"
+      because we don't have this version in unstable yet.
+  * debian/rules: use autoreconf because of above patch
+  * Re-add libquvi build-dependency
+  * Add build-dependencies on dh-autoreconf and libgcrypt20-dev
+  * Run wrap-and-sort
+  * Make libquvi build-dependency >= 0.4.1-2.1~
+    - this would avoid pulling in both lua 5.1 and 5.2 in same process
+      (since totem crashes on startup if we do this) if libquvi had
+      a "Build-Depends-Package" in its symbols file.... oh well.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Fri, 30 May 2014 10:31:34 +0200
+
+totem-pl-parser (3.10.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Mon, 24 Mar 2014 19:24:56 +0100
+
+totem-pl-parser (3.10.1-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Thu, 27 Feb 2014 19:51:06 +0100
+
+totem-pl-parser (3.10.1-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Tue, 18 Feb 2014 21:03:17 +0100
+
+totem-pl-parser (3.10.0-1) experimental; urgency=low
+
+  [ Andreas Henriksson ]
+  * New upstream release.
+  * Update build-dependencies according to configure.ac:
+    - Bump libsoup-gnome2.4-dev to >= 2.43.0
+    - Bump libarchive-dev to >= 3.0
+    - Drop libquvi-dev (new quvi has incompatible license)
+  * Rename package for new SONAME (17->18)
+  * Update debian/libtotem-plparser18.symbols
+
+  [ Michael Biebl ]
+  * Remove libquvi-dev dependency from libtotem-plparser-dev, the library no
+    longer links against libquvi.
+
+  [ Sjoerd Simons ]
+  * Add replaces on libtotem-plparser17 for the translations
+
+ -- Sjoerd Simons <sjoerd@debian.org>  Wed, 06 Nov 2013 22:12:24 +0100
+
+totem-pl-parser (3.4.5-1) unstable; urgency=low
+
+  * New upstream release.
+  * Upload to unstable.
+  * The dependency on newer glib versions has been removed by not using
+    g_clear_pointer(). Lower the Build-Depends accordingly.
+  * Bump Standards-Version to 3.9.4. No further changes.
+
+ -- Michael Biebl <biebl@debian.org>  Tue, 04 Jun 2013 01:02:57 +0200
+
+totem-pl-parser (3.4.4-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Thu, 28 Mar 2013 02:03:45 +0100
+
+totem-pl-parser (3.4.3-1) experimental; urgency=low
+
+  * Team upload
+  * New upstream bug fix release
+    - build-depend on GLib 2.34, for g_clear_pointer()
+
+ -- Simon McVittie <smcv@debian.org>  Tue, 23 Oct 2012 17:38:31 +0100
+
+totem-pl-parser (3.4.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Michael Biebl <biebl@debian.org>  Tue, 15 May 2012 20:25:47 +0200
+
+totem-pl-parser (3.4.1-1) unstable; urgency=low
+
+  * New upstream bug fix release.
+  * Drop explicit Build-Depends on gir1.2-glib-2.0 and bump Build-Depends on
+    libgirepository1.0-dev accordingly.
+
+ -- Michael Biebl <biebl@debian.org>  Mon, 16 Apr 2012 17:20:59 +0200
+
+totem-pl-parser (3.4.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Don't bother setting a shlibs version and just use -V since we have a
+    symbols file.
+  * Build gtk-doc documentation.
+  * Update Vcs-* URLs.
+  * Bump Standards-Version to 3.9.3.
+
+ -- Michael Biebl <biebl@debian.org>  Sat, 31 Mar 2012 07:14:01 +0200
+
+totem-pl-parser (3.2.0-2) experimental; urgency=low
+
+  * Switch to gmime 2.6.
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 09 Mar 2012 14:16:19 +0100
+
+totem-pl-parser (3.2.0-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/01-libquvi-0.4.patch: Removed, merged upstream.
+  * debian/control.in: Bump (Build-)Depends on libglib2.0-dev to (>= 2.31.0).
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 09 Mar 2012 13:39:14 +0100
+
+totem-pl-parser (2.32.6-2) unstable; urgency=low
+
+  * debian/watch: Track .xz tarballs.
+  * Bump debhelper compatibility level to 8.
+    - Strip debian/tmp/ from .install files.
+    - Bump Build-Depends on debhelper.
+  * Change section of gir1.2-totem-plparser-1.0 to introspection.
+  * Rely on cdbs to call dh_girepository instead of calling it explicitly.
+    Bump Build-Depends on cdbs accordingly.
+  * debian/patches/01-libquvi-0.4.patch:
+    - Make totem-pl-parser build against libquvi 0.4. Patch is backwards
+      compatible with libquvi 0.2. Thanks Ansgar Burchardt for the patch.
+      Closes: #651637
+
+ -- Michael Biebl <biebl@debian.org>  Sun, 11 Dec 2011 00:36:29 +0100
+
+totem-pl-parser (2.32.6-1) unstable; urgency=low
+
+  * debian/watch: Look for bzip2 tarballs.
+  * New upstream release:
+    - Fix parsing of remote RSS feeds
+    - Add support for M4U/MXU playlists
+
+ -- Martin Pitt <mpitt@debian.org>  Tue, 27 Sep 2011 08:43:37 +0200
+
+totem-pl-parser (2.32.5-2) unstable; urgency=low
+
+  * debian/control.in: Add libarchive-dev dependency to libtotem-plparser-dev
+    as well.
+
+ -- Martin Pitt <mpitt@debian.org>  Wed, 25 May 2011 08:37:45 +0200
+
+totem-pl-parser (2.32.5-1) unstable; urgency=low
+
+  * New upstream release.
+    - debian/control.in: Bump libquvi-dev build dep and add libarchive-dev
+      build dep as per configure.in.
+  * debian/control.in: Add Vcs-* fields.
+  * debian/watch: Fix syntax to actually catch current version.
+  * debian/control.in: Bump Standards-Version to 3.9.2 (no changes necessary).
+
+ -- Martin Pitt <mpitt@debian.org>  Wed, 25 May 2011 08:22:02 +0200
+
+totem-pl-parser (2.32.4-3) unstable; urgency=low
+
+  * Team upload.
+  * Upload to unstable to fix pkg-config breakage mistakenly introduced by
+    2.32.4-1. Closes: #622214
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Mon, 11 Apr 2011 16:57:29 +0000
+
+totem-pl-parser (2.32.4-2) experimental; urgency=low
+
+  * Team upload.
+  * Add libquvi-dev to the dependencies of libtotem-pl-parser-dev.
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Sun, 10 Apr 2011 16:59:54 +0000
+
+totem-pl-parser (2.32.4-1) experimental; urgency=low
+
+  * Team upload.
+
+  [ Josselin Mouette ]
+  * Make the -dev package depend on the gir package.
+
+  [ Raphaël Hertzog ]
+  * New upstream release 2.32.4.
+  * Drop an unneeded section field (duplication the source entry).
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Sun, 10 Apr 2011 09:11:40 +0000
+
+totem-pl-parser (2.32.2-1) experimental; urgency=low
+
+  * New upstream release.
+    + debian/control.in:
+      - Updated build dependencies.
+    + debian/libtotem-plparser17.symbols:
+      - Updated for the new symbols.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Mon, 31 Jan 2011 23:28:34 +0000
+
+totem-pl-parser (2.32.1-1) experimental; urgency=low
+
+  * New upstream release.
+  * Update to the new gir policy:
+    - Rename gir1.0-totem-plparser-1.0 to gir1.2-totem-plparser-1.0.
+    - Bump the gobject-introspection build dependency.
+    - Build depend on gir1.2 packages.
+  * debian/control.in:
+    - Remove unneeded libgtk2.0-dev and gir-repository-dev build
+      dependencies.
+  * debian/rules,
+    debian/source/format:
+    - Switch to source format 3.0 (quilt).
+  * debian/libtotem-plparser17.symbols:
+    - Added.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Sat, 18 Dec 2010 17:38:21 +0000
+
+totem-pl-parser (2.30.3-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Sebastian Dröge <slomo@debian.org>  Wed, 15 Sep 2010 13:36:36 +0200
+
+totem-pl-parser (2.30.2-1) unstable; urgency=low
+
+  * debian/control.in:
+    + Fix description of the GIR package.
+  * New upstream bugfix release:
+    + debian/control.in:
+      - Add libsoup-gnome2.4-dev build dependency.
+      - Update gobject-introspection build dependency to >= 0.6.14.
+
+ -- Sebastian Dröge <slomo@debian.org>  Wed, 04 Aug 2010 19:13:44 +0200
+
+totem-pl-parser (2.30.1-1) unstable; urgency=low
+
+  * New upstream bugfix release:
+    + debian/control.in:
+      - Update GLib build dependency to >= 2.24.0.
+    + debian/rules:
+      - Update shlibs version to >= 2.30.1 because of new API.
+
+ -- Sebastian Dröge <slomo@debian.org>  Wed, 12 May 2010 18:27:59 +0200
+
+totem-pl-parser (2.30.0-3) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Sebastian Dröge <slomo@debian.org>  Mon, 03 May 2010 13:52:34 +0200
+
+totem-pl-parser (2.30.0-2) experimental; urgency=low
+
+  * debian/control.in,
+    debian/gir1.0-totem-plparser*.install:
+    + Rename GIR package to include the version as required by the GI policy.
+
+ -- Sebastian Dröge <slomo@debian.org>  Thu, 08 Apr 2010 16:11:49 +0200
+
+totem-pl-parser (2.30.0-1) experimental; urgency=low
+
+  [ Josselin Mouette ]
+  * Update copyright, everything is under the LGPL now. Closes: #574343.
+
+  [ Sebastian Dröge ]
+  * New upstream stable release.
+
+ -- Sebastian Dröge <slomo@debian.org>  Wed, 31 Mar 2010 13:26:39 +0200
+
+totem-pl-parser (2.29.92-1) experimental; urgency=low
+
+  * New upstream development release:
+    + debian/control.in:
+      - Drop dbus build dependency.
+
+ -- Sebastian Dröge <slomo@debian.org>  Tue, 16 Mar 2010 09:00:43 +0100
+
+totem-pl-parser (2.29.1-1) experimental; urgency=low
+
+  * New upstream development release:
+    + debian/rules,
+      debian/control.in,
+      debian/*install:
+      - Update for new soname.
+    + debian/gir1.0-totem-plparser.install,
+      debian/debian/libtotem-plparser-dev.install,
+      debian/control.in,
+      debian/rules:
+      - Add support for GObject Introspection.
+
+ -- Sebastian Dröge <slomo@debian.org>  Wed, 27 Jan 2010 09:14:29 +0100
+
+totem-pl-parser (2.28.2-1) unstable; urgency=low
+
+  * New upstream bugfix release:
+    + debian/patches/01_make-reentrant.patch:
+      - Dropped, merged upstream.
+    + Include gio/gio.h instead of relying on GTK+ to include
+      it, which it doesn't in older versions (Closes: #558644).
+    + debian/rules:
+      - Update shlibs version for new API.
+
+ -- Sebastian Dröge <slomo@debian.org>  Fri, 11 Dec 2009 14:36:54 +0100
+
+totem-pl-parser (2.28.1-2) unstable; urgency=low
+
+  * debian/patches/01_make-reentrant.patch:
+    + Patch by Matt Kraai <kraai@ftbfs.org> to make totem-pl-parser
+      reentrant. Fixes crashes in rhythmbox (Closes: #547683).
+
+ -- Sebastian Dröge <slomo@debian.org>  Thu, 08 Oct 2009 12:53:30 +0200
+
+totem-pl-parser (2.28.1-1) unstable; urgency=low
+
+  * New upstream bugfix release:
+    + debian/control.in:
+      - Update GLib build dependency.
+
+ -- Sebastian Dröge <slomo@debian.org>  Tue, 29 Sep 2009 17:39:35 +0200
+
+totem-pl-parser (2.28.0-1) unstable; urgency=low
+
+  * Merge 2.26.2-2.
+  * New upstream release.
+
+ -- Sebastian Dröge <slomo@debian.org>  Mon, 21 Sep 2009 16:46:25 +0200
+
+totem-pl-parser (2.27.92-1) experimental; urgency=low
+
+  * New upstream development release.
+  * debian/control.in:
+    + Update Standards-Version to 3.8.3.
+
+ -- Sebastian Dröge <slomo@debian.org>  Tue, 15 Sep 2009 17:29:52 +0200
+
+totem-pl-parser (2.27.2-2) experimental; urgency=low
+
+  * debian/control.in:
+    + Let the -dev package depend on libgmime-2.4-dev as it's required
+      by some headers.
+
+ -- Sebastian Dröge <slomo@debian.org>  Sat, 08 Aug 2009 21:26:29 +0200
+
+totem-pl-parser (2.27.2-1) experimental; urgency=low
+
+  * New upstream development release:
+    + debian/control.in:
+      - Build depend on libgmime-2.4-dev instead of libcamel1.2-dev.
+    + debian/rules:
+      - Update shlibs version to >= 2.27.2 because of API additions.
+  * debian/control.in:
+    + Update Standards-Version to 3.8.2.
+
+ -- Sebastian Dröge <slomo@debian.org>  Fri, 24 Jul 2009 08:12:47 +0200
+
+totem-pl-parser (2.27.1-1) experimental; urgency=low
+
+  * New upstream development release.
+
+ -- Sebastian Dröge <slomo@debian.org>  Mon, 18 May 2009 19:36:07 +0200
+
+totem-pl-parser (2.26.2-2) unstable; urgency=low
+
+  * debian/patches/30_kfreebsd_gnu.patch:
+    - Removed, there's no Linux specific code anymore.
+  * debian/control.in:
+    - Stop build-depending on libhal-dev, it's not really needed
+      and as a side effect it will allow totem-pl-parser to be built
+      on non-linux architectures.
+    - Let libtotem-plparser-dev depend on ${misc:Depends}.
+    - libtotem-plparser12 inherits the section from the source stanza.
+    - Standards-Version is 3.8.3, no chanes needed.
+    - Improve long descriptions a bit.
+  * debian/copyright:
+    - Add "Copyright" to the packaging copyright statement.
+    - Clean up some whitespaces.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Sat, 29 Aug 2009 00:09:57 +0200
+
+totem-pl-parser (2.26.2-1) unstable; urgency=low
+
+  [ Josselin Mouette ]
+  * Build-depend on libglib2.0-doc to ensure proper xrefs.
+
+  [ Sebastian Dröge ]
+  * New upstream bugfix release.
+  * debian/control.in:
+    + Update Standards-Version to 3.8.1.
+    + Move debug package to Section debug.
+
+ -- Sebastian Dröge <slomo@debian.org>  Mon, 18 May 2009 17:38:08 +0200
+
+totem-pl-parser (2.26.0-1) unstable; urgency=low
+
+  [ Sam Morris ]
+  * New upstream release.
+   + Reduce build-dependency on intltool to 0.35.
+   + Increase build-dependency on libglib2.0-dev to 2.17.3.
+   + Increase build-dependency on gtk-doc-tools to 1.11.
+   + Bump shlibs version info to 2.26.
+   + Refresh patch.
+
+ -- Josselin Mouette <joss@debian.org>  Tue, 07 Apr 2009 15:11:37 +0200
+
+totem-pl-parser (2.24.4-1) UNRELEASED; urgency=low
+
+  * New upstream release
+  - uploading to unstable
+
+ -- Gustavo Noronha Silva <kov@debian.org>  Sat, 14 Mar 2009 11:56:28 -0300
+
+totem-pl-parser (2.24.2-1) experimental; urgency=low
+
+  [ Sam Morris ]
+  * New upstream release.
+  * Build-depend on intltool 0.40.
+  * Build-depend on glib 2.16.3.
+  * Drop build-dependency on gnome-vfs.
+  * Rename libtotem-plparser10 -> libtotem-plparser12.
+  * Move development documentation from libtotem-plparser10 to
+    libtotem-plparser-dev; tweak package descriptions to match; have
+    libtotem-plparser-dev Replace libtotem-plparser10.
+
+  [ Sjoerd Simons ]
+  * debian/control.in: Fix typo in intltool build-depend (0.44 => 0.40)
+
+ -- Sjoerd Simons <sjoerd@debian.org>  Sat, 06 Dec 2008 13:09:08 +0000
+
+totem-pl-parser (2.22.3-2) UNRELEASED; urgency=low
+
+  * Properly anchor package name regexp.
+
+ -- Loic Minier <lool@dooz.org>  Thu, 26 Jun 2008 20:51:28 +0200
+
+totem-pl-parser (2.22.3-1) unstable; urgency=low
+
+  [ Loic Minier ]
+  * Fix typo in copyright.
+
+  [ Sebastian Dröge ]
+  * New upstream bugfix release.
+
+ -- Sebastian Dröge <slomo@debian.org>  Tue, 13 May 2008 11:48:16 +0200
+
+totem-pl-parser (2.22.2-2) experimental; urgency=low
+
+  * Priority is optional, not extra.
+  * Add a -dbg package; based on a patch by Matt Kraai; closes: #476214.
+    - Target at experimental.
+    - Add a -dbg package in control.
+    - Bump up cdbs bdep to >= 0.4.37.
+
+ -- Loic Minier <lool@dooz.org>  Tue, 29 Apr 2008 10:07:27 +0200
+
+totem-pl-parser (2.22.2-1) unstable; urgency=low
+
+  [ Sam Morris ]
+  * New upstream release.
+
+  [ Sebastian Dröge ]
+  * Upload to unstable.
+
+ -- Sebastian Dröge <slomo@debian.org>  Wed, 09 Apr 2008 08:48:55 +0200
+
+totem-pl-parser (2.22.1-1) unstable; urgency=low
+
+  [ Sam Morris ]
+  * New upstream development release.
+    - Build-depend on gtk-doc-tools 1.0.
+    - build-depend on libglib2.0-dev 2.13.4.
+    - build-depend on libgnomevfs2-dev 2.16.
+    - build-depend on libcamel1.2-dev.
+  * Import 30_kfreebsd_gnu.patch from totem package.
+  * Include check-dist.mk in rules file to prevent accidental uploads to
+    unstable.
+
+  [ Sebastian Dröge ]
+  * New upstream stable release:
+    + debian/control.in:
+      - Update/wrap build dependencies.
+      - Add required dependencies to the -dev package.
+    + debian/control.in,
+      debian/libtotem-plparser*.install:
+      - Renamed from *11 to *10.
+  * debian/watch,
+    debian/rules:
+    Changes taken from the Ubuntu package
+    + Add watch file.
+    + Extract libtotem-plparserN package name from control.
+    + Set shlibs version via DEB_DH_MAKESHLIBS_ARGS instead of debian/*.shlibs
+      as this is less fragile across SONAME changes and library additions.
+  * debian/rules:
+    + Remove check-dist include, upload to unstable.
+  * debian/copyright:
+    + Updated.
+
+ -- Sebastian Dröge <slomo@debian.org>  Wed, 12 Mar 2008 14:19:22 +0100

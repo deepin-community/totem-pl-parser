@@ -1,0 +1,6 @@
+usr/include/*
+usr/lib/*/lib*.so
+usr/lib/*/pkgconfig/*
+usr/lib/*/totem-pl-parser/README-videosite-script.md
+usr/share/gir-*
+usr/share/gtk-doc

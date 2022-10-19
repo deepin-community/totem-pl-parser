@@ -1,0 +1,3 @@
+0001-Avoid-fsync-that-causes-totem-hangs-stutter.patch
+debian/tests-Disable-tests-requiring-system-bus.patch
+debian/tests-Disable-tests-requiring-internet-connection.patch
